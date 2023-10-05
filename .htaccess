@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^([^.]*)\.([^.]*)$
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f [NC,OR]
+RewriteCond %{REQUEST_FILENAME} -d [NC]
+RewriteRule .* index.php
