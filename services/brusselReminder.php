@@ -1,7 +1,6 @@
 <?
 /*
 Den před projekcí posílám mail o nadcházející projekci.
-záměrně je vyloučena projekce s id = 1 
 záměrně cron spouštím jen v určitých hodinách... třeba od 8 do 11. v zoneru je pak nastaveno spouštění každých 5 minut
 */
 
@@ -31,7 +30,6 @@ if(intval(Date("H")) >= 8 && intval(Date("H")) < 12){
                             AND v.reminderSent LIKE 'ne'
                             AND v.mail IS NOT NULL
                             AND v.mail != ''
-                            AND s.id != 1
                             ORDER BY vid ASC
                             LIMIT 0,20
                             ");
