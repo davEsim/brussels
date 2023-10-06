@@ -8,7 +8,8 @@
 
 #### typy projekcí
 
-| type | zobrazit v programu | zobrazit registracni form v detailu | neco extra |
-| closed | ANO | NE | |
-| notPublic | NE | ANO | vyřešit link (s hash) na projekci |
-| extern | ANO | NE |button s linkem na externi book |
+| type      | zobrazit v programu | zobrazit reg form v detailu | neco extra                          |
+|-----------|---------------------|-----------------------------|-------------------------------------|
+| closed    | ano                 | ne                          |                                     |
+| notPublic | ne                  | ano                         | vyřešit link (s hash) na projekci   |
+| extern    | ano                 | ne                          | button s linkem na externí projekci |
