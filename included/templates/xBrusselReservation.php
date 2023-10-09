@@ -1,11 +1,4 @@
-﻿
-<?php
-exit("ahoj");
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-error_reporting(-1);
-
+﻿<?php
 $lang = $_ENV["lang"];
 $itemSeo = intval($_ENV["itemSeo"]);
 
@@ -30,65 +23,65 @@ if($_POST){?>
 			if($activeBrusselScreeningCountOfViewers >= $activeBrusselScreening["countOfViewers"] && $activeBrusselScreening["activeForReservation"] == "ano"){?>
 					<p>Není bohužel možné provést rezervaci. Projekce je již vyprodána.</p>
 			<?}else{        
-			$message = "";
-			if(!empty($_POST["email"])){
-				$message = "Detekováno jako spam.";
-			}elseif(filter_var(filter_var($_POST["brusselViewerM"], FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL) === false){
-				$message = "E-mail nemá bohužel správný formát.";
-			}elseif(empty($_POST["brusselViewerSName"]) || empty($_POST["brusselViewerM"])){
-				$message = "Vyplňte prosím všechna povinná pole.";
-			}else{
-				$uid = md5(uniqid(rand(), true));
-				if($_POST["agreeData"] == "ne" || !isset($_POST["agreeData"])) $agreeData = "ne"; else $agreeData = "ano";
-				if($_POST["agreeInfo"] == "ne" || !isset($_POST["agreeInfo"])) $agreeInfo = "ne"; else $agreeInfo = "ano";
-				if($_POST["agreeNewsletter"] == "ne" || !isset($_POST["agreeNewsletter"])) $agreeNewsletter = "ne"; else $agreeNewsletter = "ano";
+				$message = "";
+				if(!empty($_POST["email"])){
+					$message = "Detekováno jako spam.";
+				}elseif(filter_var(filter_var($_POST["brusselViewerM"], FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL) === false){
+					$message = "E-mail nemá bohužel správný formát.";
+				}elseif(empty($_POST["brusselViewerSName"]) || empty($_POST["brusselViewerM"])){
+					$message = "Vyplňte prosím všechna povinná pole.";
+				}else{
+					$uid = md5(uniqid(rand(), true));
+					if($_POST["agreeData"] == "ne" || !isset($_POST["agreeData"])) $agreeData = "ne"; else $agreeData = "ano";
+					if($_POST["agreeInfo"] == "ne" || !isset($_POST["agreeInfo"])) $agreeInfo = "ne"; else $agreeInfo = "ano";
+					if($_POST["agreeNewsletter"] == "ne" || !isset($_POST["agreeNewsletter"])) $agreeNewsletter = "ne"; else $agreeNewsletter = "ano";
 
-				$params = array(
-									":screenId" 		=> $_POST["sid"],
-									":fname"			=> $_POST["brusselViewerFName"],
-									":sname"			=> $_POST["brusselViewerSName"],
-									":fnameOfSigner"	=> "",
-									":snameOfSigner"	=> "",
-									":dateOfBirth"	=> $_POST["dateOfBirth"],
-									":idType"			=> $_POST["idType"],
-									":idN"			=> $_POST["idN"],
-									":nationality"	=> $_POST["nationality"],
-									":organisation"	=> $_POST["organisation"],
-									":badge"	        => $_POST["badge"],
-									":mail"			=> $_POST["brusselViewerM"],
-									":agreeData"		=> $agreeData,
-									":agreeNewsletter"=> $agreeNewsletter,
-									":uid"			=> $uid,
-									":reminderSent"	=> "ne"
-								);
-				$db->query("INSERT INTO xBrusselViewers VALUES (NULL, :screenId, :fname, :sname, :fnameOfSigner, :snameOfSigner, :dateOfBirth, :idType, :idN, :nationality, :organisation, :badge, :mail, :agreeData, :agreeNewsletter, :uid, NOW(), :reminderSent)", $params);
-				
-				echo "	<p>Your registration has been successful.</p>
-						<p>An email message confirming registration has been sent to your email address ".$_POST["brusselViewerM"].".</p>
-						<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
-						<p>Thank you</p>
-						<a class='hollow button marginBottom' href='../brussels'><b class='fi-arrow-left'></b> Back to Programme</a>
-					";
-				
-				include_once("./included/partials/mails/brusselRegistration.php");
-				$mail = new PHPMailer();                                			
-				$mail->From="brussels@oneworld.cz";
-				$mail->FromName="One World in Brussels";
-				$mail->AddAddress($_POST["brusselViewerM"]); 			
-				$mail->WordWrap = 50;                              // set word wrap
-				$mail->IsHTML(true);                               // send as HTML
-				$mail->CharSet="utf-8"; 
-				$mail->Subject  =(($lang=="CZ")?"Jeden svět v Bruselu – registrace na projekci":"Your registration for One World Brussels");
-				$mail->Body     =  $body;
-				$mail->AltBody  =  formatTextMail($body);			
-				$mail->Send();
-		
-			}
+					$params = array(
+										":screenId" 		=> $_POST["sid"],
+										":fname"			=> $_POST["brusselViewerFName"],
+										":sname"			=> $_POST["brusselViewerSName"],
+										":fnameOfSigner"	=> "",
+										":snameOfSigner"	=> "",
+										":dateOfBirth"	=> $_POST["dateOfBirth"],
+										":idType"			=> $_POST["idType"],
+										":idN"			=> $_POST["idN"],
+										":nationality"	=> $_POST["nationality"],
+										":organisation"	=> $_POST["organisation"],
+										":badge"	        => $_POST["badge"],
+										":mail"			=> $_POST["brusselViewerM"],
+										":agreeData"		=> $agreeData,
+										":agreeNewsletter"=> $agreeNewsletter,
+										":uid"			=> $uid,
+										":reminderSent"	=> "ne"
+									);
+					$db->query("INSERT INTO xBrusselViewers VALUES (NULL, :screenId, :fname, :sname, :fnameOfSigner, :snameOfSigner, :dateOfBirth, :idType, :idN, :nationality, :organisation, :badge, :mail, :agreeData, :agreeNewsletter, :uid, NOW(), :reminderSent)", $params);
+					
+					echo "	<p>Your registration has been successful.</p>
+							<p>An email message confirming registration has been sent to your email address ".$_POST["brusselViewerM"].".</p>
+							<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
+							<p>Thank you</p>
+							<a class='hollow button marginBottom' href='../brussels'><b class='fi-arrow-left'></b> Back to Programme</a>
+						";
+					
+					include_once("./included/partials/mails/brusselRegistration.php");
+					$mail = new PHPMailer();                                			
+					$mail->From="brussels@oneworld.cz";
+					$mail->FromName="One World in Brussels";
+					$mail->AddAddress($_POST["brusselViewerM"]); 			
+					$mail->WordWrap = 50;                              // set word wrap
+					$mail->IsHTML(true);                               // send as HTML
+					$mail->CharSet="utf-8"; 
+					$mail->Subject  =(($lang=="CZ")?"Jeden svět v Bruselu – registrace na projekci":"Your registration for One World Brussels");
+					$mail->Body     =  $body;
+					$mail->AltBody  =  formatTextMail($body);			
+					$mail->Send();
+			
+				}
 			}
 	?>
 		</div>
 	</div>
-	<?php
+<?php
 }
 if(!$_POST || $message){
 	if($itemId == 13){?>
@@ -140,9 +133,9 @@ if(!$_POST || $message){
 				<?}?>  
 				</div>
 			</div>
-		<?}else{
-			
-			?>
+		<?
+		}else{
+		?>
 			<div class="row align-justify" data-abide>
 				<div class="medium-6 columns">
 					<form method="post">  
@@ -184,7 +177,9 @@ if(!$_POST || $message){
 					</div> 
 				</div>
 			</div>
-		<?  }?>	
+		<?  
+		}
+		?>	
 	</section>
 	<?
 	if($activeBrusselScreeningFilm["id"]){		
@@ -270,6 +265,7 @@ if(!$_POST || $message){
 		</div>
 	</div>   
 <?			
+	}
 }
 ?>
 
