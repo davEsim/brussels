@@ -40,8 +40,6 @@ if($_POST){?>
 										":screenId" 		=> $_POST["sid"],
 										":fname"			=> $_POST["brusselViewerFName"],
 										":sname"			=> $_POST["brusselViewerSName"],
-										":fnameOfSigner"	=> "",
-										":snameOfSigner"	=> "",
 										":dateOfBirth"	=> $_POST["dateOfBirth"],
 										":idType"			=> $_POST["idType"],
 										":idN"			=> $_POST["idN"],
@@ -54,7 +52,7 @@ if($_POST){?>
 										":uid"			=> $uid,
 										":reminderSent"	=> "ne"
 									);
-					$db->query("INSERT INTO xBrusselViewers VALUES (NULL, :screenId, :fname, :sname, :fnameOfSigner, :snameOfSigner, :dateOfBirth, :idType, :idN, :nationality, :organisation, :badge, :mail, :agreeData, :agreeNewsletter, :uid, NOW(), :reminderSent)", $params);
+					$db->query("INSERT INTO xBrusselViewers VALUES (NULL, :screenId, :fname, :sname, :dateOfBirth, :idType, :idN, :nationality, :organisation, :badge, :mail, :agreeData, :agreeNewsletter, :uid, NOW(), :reminderSent)", $params);
 					
 					echo "	<p>Your registration has been successful.</p>
 							<p>An email message confirming registration has been sent to your email address ".$_POST["brusselViewerM"].".</p>
