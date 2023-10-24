@@ -10,6 +10,7 @@
 
 | type      | zobrazit v programu | zobrazit reg form v detailu | neco extra                          |
 |-----------|---------------------|-----------------------------|-------------------------------------|
+| normal    | ano                 | ano                         |                                     |
 | closed    | ano                 | ne                          |                                     |
 | notPublic | ne                  | ano                         | vyřešit link (s hash) na projekci   |
 | extern    | ano                 | ne                          | button s linkem na externí projekci |
