@@ -146,8 +146,6 @@ if(!$_POST || $message){
 							<tr><td><?=__("Organizace")?> <sup>&ast;</sup></td><td><input type="text" name="organisation" required  /></td></tr>
 							<tr class="nS"><td>E-mail</td><td><input type="email" name="email" /></td></tr>
 							<tr class="nS"><td>E-mail</td><td><input type="email" name="mail" /></td></tr>
-							<tr><td><?=__("Jméno druhé osoby")?></td><td><input type="text" name="brusselViewer2FName" /></td></tr>
-							<tr><td><?=__("Přijmení druhé osoby")?></td><td><input type="text" name="brusselViewer2SName" /></td></tr>
 							<table class="brusselForm">
 							<tr>
 								<td><input type="checkbox" name="agreeData" value="<?=__("ano")?>" required> <sup>&ast;</sup></td>
