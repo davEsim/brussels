@@ -120,20 +120,17 @@ if(!$_POST || $message){
 			</div>
 		</div>
 		<?php
-		if($activeBrusselScreeningCountOfViewers >= $activeBrusselScreening["countOfViewers"]){
-		?>
+		if($activeBrusselScreening["type"] == "normal" || $activeBrusselScreening["type"] == "notPublic"){
+			if($activeBrusselScreeningCountOfViewers >= $activeBrusselScreening["countOfViewers"]){
+			?>
 			<div class="row row--textDecoration align-justify">
 				<div class="medium-6 columns">
-				<? if($lang == "CZ"){?>
-					<p>Promítání je již plně obsazeno. <br>Pokud chcete být zařazeni na čekací listinu, kontaktujte <a href="mailto:brussels@oneworld.cz">brussels@oneworld.cz</a>.</p>
-				<?}else{?>
 					<p>The screening is now fully booked. <br>Contact <a href="mailto:brussels@oneworld.cz">brussels@oneworld.cz</a> if you want to be put on a&nbsp;waiting list.</p>
-				<?}?>  
 				</div>
 			</div>
-		<?
-		}else{
-		?>
+			<?
+			}
+			?>
 			<div class="row align-justify" data-abide>
 				<div class="medium-6 columns">
 					<form method="post">  
