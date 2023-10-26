@@ -171,6 +171,14 @@ if(!$_POST || $message){
 				</div>
 			</div>
 		<?  
+		}elseif($activeBrusselScreening["type"] == "extern"){
+		?>
+			<div class="row">
+				<div class="medium-12 columns">
+					<a target="_blank" href="<?=$activeBrusselScreening["linkToExternReg"]?>" title="Registrace na stránkách pořadatele" class="large button">Registrace na stránkách pořadatele</a>
+				</div>
+			</div>
+		<?	
 		}
 		?>	
 	</section>
