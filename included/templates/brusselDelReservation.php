@@ -21,20 +21,25 @@ if (strlen($itemId) == 32) {
 			}
 		}
 	} else {
+
+		if ($activeBrusselViewer["id"]) {
 ?>
-		<div class="row">
-			<div class="medium-12 columns">
-				<h3><?= __("Vaše rezervace") ?>:</h3>
-				<p><strong><?= $activeBrusselScreeningFilm["title$lang"] ?></strong></p>
-				<p><?= invertDatumFromDB($activeBrusselScreening["date"], 1) . " | " . $activeBrusselScreening["time"] ?></p>
-				<p><?= $activeBrusselScreeningPlace["xBrusselPlaces"] ?><br /><?= $activeBrusselScreeningPlace["address"] ?></p>
-				<form method="post">
-					<input type="hidden" name="uid" value="<?= $itemId ?>" />
-					<div id="formSend" data-value="<?= __("Zrušit rezervaci") ?>"></div>
-				</form>
+			<div class="row">
+				<div class="medium-12 columns">
+					<h3><?= __("Vaše rezervace") ?>:</h3>
+					<p><strong><?= $activeBrusselScreeningFilm["title$lang"] ?></strong></p>
+					<p><?= invertDatumFromDB($activeBrusselScreening["date"], 1) . " | " . $activeBrusselScreening["time"] ?></p>
+					<p><?= $activeBrusselScreeningPlace["xBrusselPlaces"] ?><br /><?= $activeBrusselScreeningPlace["address"] ?></p>
+					<form method="post">
+						<input type="hidden" name="uid" value="<?= $itemId ?>" />
+						<div id="formSend" data-value="<?= __("Zrušit rezervaci") ?>"></div>
+					</form>
+				</div>
 			</div>
-		</div>
 <?
+		} else {
+			echo "<p>Reservation was not canceled successfully.<br>Reservation was canceled sometimes earlier or didn't exists.</p>";
+		}
 	}
 }
 
