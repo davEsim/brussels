@@ -1,22 +1,22 @@
 <?
 /*
 Den před projekcí posílám mail o nadcházející projekci.
-záměrně cron spouštím jen v určitých hodinách... třeba od 8 do 11. v zoneru je pak nastaveno spouštění každých 5 minut
+záměrně cron spouštím jen v určitých hodinách... třeba od 8 do 12 hodin (prostě dopoledne :-)) v zoneru je pak nastaveno spouštění každých 5 minut
 */
 
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(-1);
 
-require_once("../../../data/private/2022/smtp_config.php");
-require_once("../../../data/private/2022/phpMailer/phpmailer.class.php");
-require_once("../../../data/private/2022/phpMailer/smtp.class.php");
+require_once("../../../data/private/2024/smtp_config.php");
+require_once("../../../data/private/2024/phpMailer/phpmailer.class.php");
+require_once("../../../data/private/2024/phpMailer/smtp.class.php");
 
 require_once("../php/classes/dbPdo.class.php");
-require_once("../../../data/private/2022/connection.php");
+require_once("../../../data/private/2024/connection.php");
 require_once("../php/funcs.php");
 
-if(intval(Date("H")) >= 8 && intval(Date("H")) < 12){ 
+if (intval(Date("H")) >= 8 && intval(Date("H")) < 12) {
 
     $rs = $db->queryAll("   SELECT v.id AS vid, v.fname, v.sname, s.date, s.time, f.titleEN AS film, v.mail, p.xBrusselPlaces, p.address 
                             FROM `xBrusselViewers` AS v 
@@ -30,36 +30,34 @@ if(intval(Date("H")) >= 8 && intval(Date("H")) < 12){
                             AND v.reminderSent LIKE 'ne'
                             AND v.mail IS NOT NULL
                             AND v.mail != ''
+                            AND v.state LIKE 'registered'
                             ORDER BY vid ASC
                             LIMIT 0,20
                             ");
 
 
 
-    foreach($rs AS $r){
+    foreach ($rs as $r) {
 
         include("../included/partials/mails/brusselRegistrationReminder.php");
-        $mail = new PHPMailer();                                			
-        $mail->From="brussels@oneworld.cz";
-        $mail->FromName="One World in Brussels";
-        $mail->AddAddress($r["mail"]); 			
+        $mail = new PHPMailer();
+        $mail->From = "brussels@oneworld.cz";
+        $mail->FromName = "One World in Brussels";
+        $mail->AddAddress($r["mail"]);
         $mail->WordWrap = 50;                              // set word wrap
         $mail->IsHTML(true);                               // send as HTML
-        $mail->CharSet="utf-8"; 
-        $mail->Subject  ="Your registration for One World Brussels";
+        $mail->CharSet = "utf-8";
+        $mail->Subject  = "Your registration for One World Brussels";
         $mail->Body     =  $body;
-        $mail->AltBody  =  formatTextMail($body);			
-        if($mail->Send()){   
+        $mail->AltBody  =  formatTextMail($body);
+        if ($mail->Send()) {
             $db->query("UPDATE xBrusselViewers SET reminderSent = 'ano' WHERE id = ?", array($r["vid"]));
 
-            $logString = "Mail to: ".$r["mail"].", registration ID: ".$r["vid"].", screening date: ".$r["date"];
+            $logString = "Mail to: " . $r["mail"] . ", registration ID: " . $r["vid"] . ", screening date: " . $r["date"];
             $db->query("INSERT into brusselReminderLog VALUES (NULL, NOW(), ?, ?, ?)", array("ano", $r["vid"], $logString));
-        }else{
-            $logString = "Mail to: ".$r["mail"].", registration ID: ".$r["vid"].", screening date: ".$r["date"];
-            $db->query("INSERT into brusselReminderLog VALUES (NULL, NOW(), ?, ?, ?)", array("ne", $r["vid"],$logString));
-        } 
-
+        } else {
+            $logString = "Mail to: " . $r["mail"] . ", registration ID: " . $r["vid"] . ", screening date: " . $r["date"];
+            $db->query("INSERT into brusselReminderLog VALUES (NULL, NOW(), ?, ?, ?)", array("ne", $r["vid"], $logString));
+        }
     }
-
 }
-?>
