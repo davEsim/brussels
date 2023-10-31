@@ -176,7 +176,7 @@ if (!$itemId) {
 									<tr>
 										<td><input type="checkbox" name="agreeNewsletter" value="<?= __("ano") ?>"></td>
 										<td>
-											<p><?= __("Chci být informován o příštím ročníku festivalu Jeden svět v Bruselu (2024).") ?></p>
+											<p>Chci být informován o příštím ročníku festivalu Jeden svět v Bruselu (2025)</p>
 										</td>
 									</tr>
 								</table>
@@ -204,6 +204,14 @@ if (!$itemId) {
 					</div>
 				</div>
 			<?
+			} elseif ($activeBrusselScreening["type"] == "closed") {
+			?>
+				<div class="row">
+				<div class="medium-12 columns">
+					<p>Na tuto projekci se nelze registrovat, jde o uzavřenou projekci. Máme ale jiné skvělé filmy v programu, mrkněte do programu.</p>
+				</div>
+			</div>
+			<?	
 			}
 			?>
 		</section>

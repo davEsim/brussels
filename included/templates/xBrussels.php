@@ -41,47 +41,7 @@ toggler.addEventListener("click", ()=> {toggler.style.display = "none"});
     <div class="medium-12 columns">
         <div id="toggler" class="text-center"><h3 class="text-center marginTop button" data-toggle="panel">Zobrazit proběhlé projekce</h3></div>
         <div class="" id="panel" data-toggler data-animate="fade-in fade-out" style="display:none">
-            <h2 class="marginBottom2 marginTop">04/19</h2>
-            <table class="stack table--brusselsScreenings">
-                <tr>
-                <td width="250px" class="time">
-                    <strong>18:00</strong><br>
-                    <p style="margin-right: 1rem; cursor: pointer; cursor: hand" data-open="placeModal1" aria-controls="placeModal1" aria-haspopup="dialog" tabindex="0">
-                            EUROPEUM<br>
-                            <small>Avenue de Broqueville 40, 1200 Woluwe-Saint-Lambert</small>
-                    </p>
-                </td>
-                
-                <td width="400px">
-                    <a href="/brussels-registration/8"><img alt="While We Watched" src="https://images.pinf.cz/images/filmimages/image.ashx?I=2&amp;W=370&amp;H=206&amp;ID=0&amp;IMGID=18313"></a>                </td>
-                <td class="fullFilmTitle">
-                    <div class="extraScreeningTitle"><strong>(past screening)</strong></div>
-                                            <a href="/brussels-registration/8"><strong>While We Watched</strong></a>
-                                    </td>
-                <td width="100px">
-                            
-                </td>
-                </tr>
-                <tr>
-                    <td width="250px" class="time">
-                        <strong>18:00</strong><br>
-                        <p style="margin-right: 1rem; cursor: pointer; cursor: hand" data-open="placeModal2" aria-controls="placeModal2" aria-haspopup="dialog" tabindex="0">
-                                Permanent Representation of the Czech Republic to the EU<br>
-                                <small>Rue Caroly 15, 1050 Brussels</small>
-                        </p>
-                    </td>
-                    
-                    <td width="400px">
-                        <a href="/brussels-registration/7"><img alt="Women Behind the Wheel" src="https://images.pinf.cz/images/filmimages/image.ashx?I=2&amp;W=370&amp;H=206&amp;ID=0&amp;IMGID=18314"></a>                </td>
-                    <td class="fullFilmTitle">
-                        <div class="extraScreeningTitle"><strong>(past screening)</strong></div>
-                                                <a href="/brussels-registration/7"><strong>Women Behind the Wheel</strong></a>
-                                        </td>
-                    <td width="100px">
-                                
-                    </td>
-                </tr>
-            </table>
+           proběhlé projekce
         </div>    
     </div>    
 </div>
