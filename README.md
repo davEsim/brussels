@@ -1,6 +1,6 @@
 # Brusel
 
-- od 2023 běží samostatně v subdoméně brussels.oneworld.cz
+- od 2023 běží samostatně na subdoméně brussels.oneworld.cz
 - existuje jen v EN verzi
 - [zadani](https://clovekvtisni-my.sharepoint.com/:w:/g/personal/nuspet01_pinf_cz/EUncSkjIlQtDtHGOh828JiMBoEq5toFwSAaNHYzMCLHJAw?e=91N0qq)
 
