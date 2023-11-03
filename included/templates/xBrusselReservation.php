@@ -13,9 +13,15 @@ if (!$itemId) {
 	$brusselScreenings = new xBrusselScreenings($db, "xBrusselScreenings");
 	$activeBrusselScreening = $brusselScreenings->findById($itemId);
 	$activeBrusselScreeningCountOfViewers = $brusselScreenings->countOfViewers($itemId);
-	$activeBrusselScreeningIsSoldOut = false;
 	if ($activeBrusselScreeningCountOfViewers >= $activeBrusselScreening["countOfViewers"]) {
 		$activeBrusselScreeningIsSoldOut = true;
+	} else {
+		$activeBrusselScreeningIsSoldOut = false;
+	}
+	if (strtotime($activeBrusselScreening["expiration"]) < time()) {
+		$activeBrusselScreeningExpired = true;
+	} else {
+		$activeBrusselScreeningExpired = false;
 	}
 	$state = $activeBrusselScreeningIsSoldOut ? "waiting" : "registered";
 	$activeBrusselScreeningFilm = $brusselScreenings->getRelRow($activeBrusselScreening["id_xBrusselFilms"], "xBrusselFilms");
@@ -127,77 +133,89 @@ if (!$itemId) {
 			</div>
 			<?php
 			if ($activeBrusselScreening["type"] == "normal" || $activeBrusselScreening["type"] == "notPublic") {
-				if ($activeBrusselScreeningIsSoldOut) {
+				if (!$activeBrusselScreeningExpired) {
+					if ($activeBrusselScreeningIsSoldOut) {
 			?>
-					<div class="row row--textDecoration align-justify">
+						<div class="row marginBottom2">
+							<div class="medium-8 columns">
+								<div class='callout alert'><strong>The screening is now fully booked.<br>
+										If you want to be put on a&nbsp;waiting list, please, fill up the form below.</strong></div>
+							</div>
+						</div>
+					<?
+					}
+					?>
+					<div class="row align-justify" data-abide>
 						<div class="medium-6 columns">
-							<p><strong>The screening is now fully booked.<br>
-									If you want to be put on a&nbsp;waiting list, please, fill up the form below.</strong></p>
+							<form method="post">
+								<table class="brusselForm">
+									<tr>
+										<td><?= __("Jméno") ?> <sup>&ast;</sup></td>
+										<td><input type="text" name="brusselViewerFName" size="20" required /></td>
+									</tr>
+									<tr>
+										<td><?= __("Přijmení") ?> <sup>&ast;</sup></td>
+										<td><input type="text" name="brusselViewerSName" size="20" required /></td>
+									</tr>
+									<tr>
+										<td>E-mail <sup>&ast;</sup></td>
+										<td><input type="email" name="brusselViewerM" required /></td>
+									</tr>
+									<tr>
+										<td><?= __("Organizace") ?> <sup>&ast;</sup></td>
+										<td><input type="text" name="organisation" required /></td>
+									</tr>
+									<tr class="nS">
+										<td>E-mail</td>
+										<td><input type="email" name="email" /></td>
+									</tr>
+									<tr class="nS">
+										<td>E-mail</td>
+										<td><input type="email" name="mail" /></td>
+									</tr>
+									<table class="brusselForm">
+										<tr>
+											<td><input type="checkbox" name="agreeData" value="<?= __("ano") ?>" required> <sup>&ast;</sup></td>
+											<td>
+												<p><a href="#" data-open="modal-personalData"><?= __("Souhlasím s tím, že mé kontaktní údaje budou po dobu konání festivalu uchovávány za účelem zasílání připomínek o konání projekcí.") ?></a></p>
+											</td>
+										</tr>
+										<tr>
+											<td><input type="checkbox" name="agreeNewsletter" value="<?= __("ano") ?>"></td>
+											<td>
+												<p>Chci být informován o příštím ročníku festivalu Jeden svět v Bruselu (2025)</p>
+											</td>
+										</tr>
+									</table>
+									<div id="formSend" data-value="<?= __("Odeslat") ?>"></div>
+									<input type="hidden" name="sid" value="<?= $activeBrusselScreening["id"] ?>" />
+									<input type="hidden" name="pid" value="<?= $activeBrusselScreening["id_xBrusselPlaces"] ?>" />
+							</form>
+						</div>
+
+						<div class="medium-5 columns">
+							<div style="border-left: 1px solid #cacaca; padding-left: 1rem">
+								<p class="marginBottom1"><strong><?= __("Projekce") ?></strong></p>
+								<h4><?= $activeBrusselScreeningFilm["title$lang"] ?></h4>
+								<p><strong><?= invertDatumFromDB($activeBrusselScreening["date"], 1) . " | " . $activeBrusselScreening["time"] ?></strong></p>
+								<p><a href="<?= $activeBrusselScreeningPlace["url"] ?>" target="_blank"><?= $activeBrusselScreeningPlace["xBrusselPlaces"] ?></a><br /><?= $activeBrusselScreeningPlace["address"] ?></p>
+							</div>
+						</div>
+					</div>
+				<?
+				} else {
+				?>
+					<div class="row">
+						<div class="medium-12 columns">
+							<p> Bohužel již není možné se na projekci registrovat.<br>
+								Registrace byla ukončena <?= substr($activeBrusselScreening["expiration"], 0, -3) ?>.
+							</p>
 						</div>
 					</div>
 				<?
 				}
-				?>
-				<div class="row align-justify" data-abide>
-					<div class="medium-6 columns">
-						<form method="post">
-							<table class="brusselForm">
-								<tr>
-									<td><?= __("Jméno") ?> <sup>&ast;</sup></td>
-									<td><input type="text" name="brusselViewerFName" size="20" required /></td>
-								</tr>
-								<tr>
-									<td><?= __("Přijmení") ?> <sup>&ast;</sup></td>
-									<td><input type="text" name="brusselViewerSName" size="20" required /></td>
-								</tr>
-								<tr>
-									<td>E-mail <sup>&ast;</sup></td>
-									<td><input type="email" name="brusselViewerM" required /></td>
-								</tr>
-								<tr>
-									<td><?= __("Organizace") ?> <sup>&ast;</sup></td>
-									<td><input type="text" name="organisation" required /></td>
-								</tr>
-								<tr class="nS">
-									<td>E-mail</td>
-									<td><input type="email" name="email" /></td>
-								</tr>
-								<tr class="nS">
-									<td>E-mail</td>
-									<td><input type="email" name="mail" /></td>
-								</tr>
-								<table class="brusselForm">
-									<tr>
-										<td><input type="checkbox" name="agreeData" value="<?= __("ano") ?>" required> <sup>&ast;</sup></td>
-										<td>
-											<p><a href="#" data-open="modal-personalData"><?= __("Souhlasím s tím, že mé kontaktní údaje budou po dobu konání festivalu uchovávány za účelem zasílání připomínek o konání projekcí.") ?></a></p>
-										</td>
-									</tr>
-									<tr>
-										<td><input type="checkbox" name="agreeNewsletter" value="<?= __("ano") ?>"></td>
-										<td>
-											<p>Chci být informován o příštím ročníku festivalu Jeden svět v Bruselu (2025)</p>
-										</td>
-									</tr>
-								</table>
-								<div id="formSend" data-value="<?= __("Odeslat") ?>"></div>
-								<input type="hidden" name="sid" value="<?= $activeBrusselScreening["id"] ?>" />
-								<input type="hidden" name="pid" value="<?= $activeBrusselScreening["id_xBrusselPlaces"] ?>" />
-						</form>
-					</div>
-
-					<div class="medium-5 columns">
-						<div style="border-left: 1px solid #cacaca; padding-left: 1rem">
-							<p class="marginBottom1"><strong><?= __("Projekce") ?></strong></p>
-							<h4><?= $activeBrusselScreeningFilm["title$lang"] ?></h4>
-							<p><strong><?= invertDatumFromDB($activeBrusselScreening["date"], 1) . " | " . $activeBrusselScreening["time"] ?></strong></p>
-							<p><a href="<?= $activeBrusselScreeningPlace["url"] ?>" target="_blank"><?= $activeBrusselScreeningPlace["xBrusselPlaces"] ?></a><br /><?= $activeBrusselScreeningPlace["address"] ?></p>
-						</div>
-					</div>
-				</div>
-			<?
 			} elseif ($activeBrusselScreening["type"] == "extern") {
-			?>
+				?>
 				<div class="row">
 					<div class="medium-12 columns">
 						<a target="_blank" href="<?= $activeBrusselScreening["linkToExternReg"] ?>" title="Registrace na stránkách pořadatele" class="large button">Registrace na stránkách pořadatele</a>
@@ -207,11 +225,11 @@ if (!$itemId) {
 			} elseif ($activeBrusselScreening["type"] == "closed") {
 			?>
 				<div class="row">
-				<div class="medium-12 columns">
-					<p>Na tuto projekci se nelze registrovat, jde o uzavřenou projekci. Máme ale jiné skvělé filmy v programu, mrkněte do programu.</p>
+					<div class="medium-12 columns">
+						<p>Na tuto projekci se nelze registrovat, jde o uzavřenou projekci. Máme ale jiné skvělé filmy v programu, mrkněte do programu.</p>
+					</div>
 				</div>
-			</div>
-			<?	
+			<?
 			}
 			?>
 		</section>
