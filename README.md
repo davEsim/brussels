@@ -29,7 +29,7 @@ tlačítko:
 - "Detail" - pokud nemá být aktivní registrace - closed projekce nebo datum expirace projekce je starší než aktuální datum
 - "Detail a registrace" - ve všech ostatních případech. rušíme nemožnost se registrovat z důvodu naplnění, protože pak je možná registrace na waitingList
 
-##### stránka projekcí (template xBrussels.php)
+##### stránka detailu projekcí (template xBrusselReservation.php)
 
 na stránce detailu projekce (template xBrusselReservation.php) zobrazuji vlastně všechny projekce (i detail notPulic projekce)
 
