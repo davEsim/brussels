@@ -31,6 +31,11 @@ tlačítko:
 
 ##### stránka detailu projekcí (template xBrusselReservation.php)
 
-na stránce detailu projekce (template xBrusselReservation.php) zobrazuji vlastně všechny projekce (i detail notPulic projekce)
+na stránce detailu projekce (template xBrusselReservation.php) zobrazuji vlastně všechny projekce (i detail notPublic projekce)
+rozdíly jsou ale v sekci pro registrační formulář (pro přehlednost v DEV verzi šedý background), který je součástí detailu projekce:
 
-- registrační formulář
+- pokud je projekce typu "normal" nebo "notPublic", současně není projekce expirovaná a současně není projekce vyprodaná zobrazí se registrační formulář
+- pokud je projekce typu "normal" nebo "notPublic", současně není projekce expirovaná a současně je projekce vyprodaná zobrazí Alert, že projekce je vyprodaná, ale že je možné se zapsat na waiting list, plus registrační formulář (ten je stejný jako formulář na plnou registraci, jen posílá skrytá data, že data mají být uložena do waitinglistu a né do registrací)
+- pokud je projekce typu "normal" nebo "notPublic" a současně je projekce expirovaná zobrazí se informace, že registrace byla již ukočena včetně data expirace
+- pokud je projekce typu "extern" místo registračního formuláře se zobrazí tlačítko s odkazem (editovatelný v rámci CMS) na stránky pořadetele, kde je možné provést registraci
+- pokud je projekce typu "closed" místo registračního formuláře se zobrazí text o tom, že projekce je uzavřená

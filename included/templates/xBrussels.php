@@ -54,7 +54,7 @@ foreach ($days as $day) {
     $untilRegDay = $sday - 1; // registrace se uzavírají den před projekcí - pokud není zadáno jinak v RS v poli resvExtraInfo
 ?>
     <div class='row'>
-        <smaller class="medium-12 columns">
+        <div class="medium-12 columns">
             <h2 class="marginBottom2 marginTop"><?= invertDatumFromDB($day["date"], 1) ?></h2>
             <?
             $brusselScreeningsListing = $brusselScreenings->listingByDate($day["date"]);
@@ -119,7 +119,7 @@ foreach ($days as $day) {
                 }
                 ?>
             </table>
-    </div>
+        </div>
     </div>
     <!--row-->
 <?
