@@ -8,6 +8,8 @@
 
 ## typy projekcí
 
+oproti zadání je zde změna. domnívám se, že je zbytečné na každý typ projekce vytvářet přepínač ano/ne. protože se (alespon podle mého :-)) typy vzájemně vylučují, zahrnul jsem všechny typy do jednoho radioButtonu a v CMS tak přepínám přímo mezi typy.
+
 | type      | zobrazit v programu | zobrazit reg form v detailu | neco extra                          |
 | --------- | ------------------- | --------------------------- | ----------------------------------- |
 | normal    | ano                 | ano                         |                                     |
