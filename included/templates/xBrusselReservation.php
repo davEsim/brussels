@@ -73,15 +73,27 @@ if (!$itemId) {
 						":reminder3DaysBeforeSent"	=> "ne",
 					);
 					$db->query("INSERT INTO xBrusselViewers VALUES (NULL, :screenId, :state, :fname, :sname, :dateOfBirth, :idType, :idN, :nationality, :organisation, :badge, :mail, :agreeData, :agreeNewsletter, :uid, NOW(), :reminder1DayBeforeSent, :reminder3DaysBeforeSent)", $params);
-
-					echo "	<p>Your registration has been successful.</p>
-							<p>An email message confirming registration has been sent to your email address " . $_POST["brusselViewerM"] . ".</p>
-							<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
-							<p>Thank you</p>
-							<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
+					if ($state == "waiting") {
+						echo "	<p>Your registration on <strong>wating list</strong> has been successful.</p>
+						<p><strong>Pokud se nějaké místo skutečně uvolní, budete automaticky zaregistrování a  budeme vás obratem informovat mailem.</strong></p>
+						<p>An email message confirming registration on wating list has been sent to your email address " . $_POST["brusselViewerM"] . ".</p>
+						<p></p>
+						<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
+						<p>Thank you</p>
+						<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
 						";
 
-					include_once("./included/partials/mails/brusselRegistration.php");
+						include_once("./included/partials/mails/brusselRegistration.php");
+					} else {
+						echo "	<p>Your registration has been successful.</p>
+								<p>An email message confirming registration has been sent to your email address " . $_POST["brusselViewerM"] . ".</p>
+								<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
+								<p>Thank you</p>
+								<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
+							";
+
+						include_once("./included/partials/mails/brusselRegistrationWaitingList.php");
+					}
 					$mail = new PHPMailer();
 					$mail->From = "brussels@oneworld.cz";
 					$mail->FromName = "One World in Brussels";
