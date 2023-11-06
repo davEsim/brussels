@@ -34,77 +34,79 @@ if (!$itemId) {
 			<div class="medium-6 small-12 columns">
 				<h3 class="marginBottom2"><?= __("Vaše rezervace na projekci") ?></h3>
 				<?
-				if ($activeBrusselScreeningIsSoldOut) {
-				?>
-					<p><strong>Unfortunately, it is not possible to make a reservation. The screening is already sold out.</p>
-					<p>But we added you to waiting list and we will send you mail when someone cancel registration.</strong></p>
-				<?
-				}
-				$message = "";
-				if (!empty($_POST["email"])) {
-					$message = "Detekováno jako spam.";
-				} elseif (filter_var(filter_var($_POST["brusselViewerM"], FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL) === false) {
-					$message = "E-mail nemá bohužel správný formát.";
-				} elseif (empty($_POST["brusselViewerSName"]) || empty($_POST["brusselViewerM"])) {
-					$message = "Vyplňte prosím všechna povinná pole.";
-				} else {
-					$uid = md5(uniqid(rand(), true));
-					if ($_POST["agreeData"] == "ne" || !isset($_POST["agreeData"])) $agreeData = "ne";
-					else $agreeData = "ano";
-					if ($_POST["agreeNewsletter"] == "ne" || !isset($_POST["agreeNewsletter"])) $agreeNewsletter = "ne";
-					else $agreeNewsletter = "ano";
-
-					$params = array(
-						":screenId" 		=> $_POST["sid"],
-						":state"			=> $state,
-						":fname"			=> $_POST["brusselViewerFName"],
-						":sname"			=> $_POST["brusselViewerSName"],
-						":dateOfBirth"	=> $_POST["dateOfBirth"],
-						":idType"			=> $_POST["idType"],
-						":idN"			=> $_POST["idN"],
-						":nationality"	=> $_POST["nationality"],
-						":organisation"	=> $_POST["organisation"],
-						":badge"	        => $_POST["badge"],
-						":mail"			=> $_POST["brusselViewerM"],
-						":agreeData"		=> $agreeData,
-						":agreeNewsletter" => $agreeNewsletter,
-						":uid"			=> $uid,
-						":reminder1DayBeforeSent"	=> "ne",
-						":reminder3DaysBeforeSent"	=> "ne",
-					);
-					$db->query("INSERT INTO xBrusselViewers VALUES (NULL, :screenId, :state, :fname, :sname, :dateOfBirth, :idType, :idN, :nationality, :organisation, :badge, :mail, :agreeData, :agreeNewsletter, :uid, NOW(), :reminder1DayBeforeSent, :reminder3DaysBeforeSent)", $params);
-					if ($state == "waiting") {
-						echo "	<p>Your registration on <strong>wating list</strong> has been successful.</p>
-						<p><strong>Pokud se nějaké místo skutečně uvolní, budete automaticky zaregistrování a  budeme vás obratem informovat mailem.</strong></p>
-						<p>An email message confirming registration on wating list has been sent to your email address " . $_POST["brusselViewerM"] . ".</p>
-						<p></p>
-						<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
-						<p>Thank you</p>
-						<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
-						";
-
-						include_once("./included/partials/mails/brusselRegistration.php");
+				if (!$activeBrusselScreeningExpired) {
+					$message = "";
+					if (!empty($_POST["email"])) {
+						$message = "Detekováno jako spam.";
+					} elseif (filter_var(filter_var($_POST["brusselViewerM"], FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL) === false) {
+						$message = "E-mail nemá bohužel správný formát.";
+					} elseif (empty($_POST["brusselViewerSName"]) || empty($_POST["brusselViewerM"])) {
+						$message = "Vyplňte prosím všechna povinná pole.";
 					} else {
-						echo "	<p>Your registration has been successful.</p>
-								<p>An email message confirming registration has been sent to your email address " . $_POST["brusselViewerM"] . ".</p>
-								<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
-								<p>Thank you</p>
-								<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
+						$uid = md5(uniqid(rand(), true));
+						if ($_POST["agreeData"] == "ne" || !isset($_POST["agreeData"])) $agreeData = "ne";
+						else $agreeData = "ano";
+						if ($_POST["agreeNewsletter"] == "ne" || !isset($_POST["agreeNewsletter"])) $agreeNewsletter = "ne";
+						else $agreeNewsletter = "ano";
+
+						$params = array(
+							":screenId" 		=> $_POST["sid"],
+							":state"			=> $state,
+							":fname"			=> $_POST["brusselViewerFName"],
+							":sname"			=> $_POST["brusselViewerSName"],
+							":dateOfBirth"	=> $_POST["dateOfBirth"],
+							":idType"			=> $_POST["idType"],
+							":idN"			=> $_POST["idN"],
+							":nationality"	=> $_POST["nationality"],
+							":organisation"	=> $_POST["organisation"],
+							":badge"	        => $_POST["badge"],
+							":mail"			=> $_POST["brusselViewerM"],
+							":agreeData"		=> $agreeData,
+							":agreeNewsletter" => $agreeNewsletter,
+							":uid"			=> $uid,
+							":reminder1DayBeforeSent"	=> "ne",
+							":reminder3DaysBeforeSent"	=> "ne",
+						);
+						$db->query("INSERT INTO xBrusselViewers VALUES (NULL, :screenId, :state, :fname, :sname, :dateOfBirth, :idType, :idN, :nationality, :organisation, :badge, :mail, :agreeData, :agreeNewsletter, :uid, NOW(), :reminder1DayBeforeSent, :reminder3DaysBeforeSent)", $params);
+						if ($state == "waiting") {
+							echo "	<p>Your registration on <strong>wating list</strong> has been successful.</p>
+							<p><strong>Pokud se nějaké místo skutečně uvolní, budete automaticky zaregistrování a  budeme vás obratem informovat mailem.</strong></p>
+							<p>An email message confirming registration on wating list has been sent to your email address " . $_POST["brusselViewerM"] . ".</p>
+							<p></p>
+							<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
+							<p>Thank you</p>
+							<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
 							";
 
-						include_once("./included/partials/mails/brusselRegistrationWaitingList.php");
+							include_once("./included/partials/mails/brusselRegistrationWaitingList.php");
+						} else {
+							echo "	<p>Your registration has been successful.</p>
+									<p>An email message confirming registration has been sent to your email address " . $_POST["brusselViewerM"] . ".</p>
+									<p class='warning'><strong>If you can not find our mail, please,  check your spam folder too.</strong></p>
+									<p>Thank you</p>
+									<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
+								";
+
+							include_once("./included/partials/mails/brusselRegistration.php");
+						}
+						$mail = new PHPMailer();
+						$mail->From = "brussels@oneworld.cz";
+						$mail->FromName = "One World in Brussels";
+						$mail->AddAddress($_POST["brusselViewerM"]);
+						$mail->WordWrap = 50;                              // set word wrap
+						$mail->IsHTML(true);                               // send as HTML
+						$mail->CharSet = "utf-8";
+						$mail->Subject  = "Your registration for One World Brussels";
+						$mail->Body     =  $body;
+						$mail->AltBody  =  formatTextMail($body);
+						$mail->Send();
 					}
-					$mail = new PHPMailer();
-					$mail->From = "brussels@oneworld.cz";
-					$mail->FromName = "One World in Brussels";
-					$mail->AddAddress($_POST["brusselViewerM"]);
-					$mail->WordWrap = 50;                              // set word wrap
-					$mail->IsHTML(true);                               // send as HTML
-					$mail->CharSet = "utf-8";
-					$mail->Subject  = "Your registration for One World Brussels";
-					$mail->Body     =  $body;
-					$mail->AltBody  =  formatTextMail($body);
-					$mail->Send();
+				} else {
+				?>
+					<p>Bohužel, možnost registrace na vámi zvolenou projekci již vypršela.</p>
+					<p>Registrace byla možná do <?= $activeBrusselScreening["expiration"] ?>.</p>
+					<a class='hollow button marginBottom' href='/'><b class='fi-arrow-left'></b> Back to Programme</a>
+				<?
 				}
 				?>
 			</div>
